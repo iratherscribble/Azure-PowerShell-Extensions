@@ -8,9 +8,9 @@ Import-Module (dir $moduleBasePath -Directory).Name
 # in this directory.
 $profileFile = "$PsScriptRoot\profile_cache.json"
 if (Test-Path $profileFile) {
-	Select-AzureRmProfile -Path $profileFile
+    Select-AzureRmProfile -Path $profileFile
 }
 
 function reload {
-	Import-Module (dir $moduleBasePath -Directory).Name -Force
+    Import-Module (dir $moduleBasePath -Directory).Name -Force
 }

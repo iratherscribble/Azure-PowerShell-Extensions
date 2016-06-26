@@ -3,13 +3,13 @@ function Invoke-AzureExGraphAPI
     <#
     .Synopsis
         Invokes AAD Graph REST API.
-	.Example
-		PS> Invoke-AzureExGraphAPI tenantDetails
-		PS> Invoke-AzureExGraphAPI me
+    .Example
+        PS> Invoke-AzureExGraphAPI tenantDetails
+        PS> Invoke-AzureExGraphAPI me
     .Example
         PS> Invoke-AzureExGraphAPI 'applications?$filter=...'
-	.Link
-		https://msdn.microsoft.com/en-us/library/azure/ad/graph/api/api-catalog
+    .Link
+        https://msdn.microsoft.com/en-us/library/azure/ad/graph/api/api-catalog
     #>
     [CmdletBinding()]
     param (
@@ -25,12 +25,12 @@ function Invoke-AzureExGraphAPI
 
         [string] $ApiVersion = '1.6'
         )
-	$p = GetProfile
+    $p = GetProfile
     $graphUrl = $p.Context.Environment.Endpoints.Graph | NormalizeUrl
     if (!$TenantId) { 
-		$TenantId = $p.Context.Tenant.Id 
-		if (!$TenantId) { throw 'Unable to get tenant id from AzureRM profile' }
-	}
+        $TenantId = $p.Context.Tenant.Id 
+        if (!$TenantId) { throw 'Unable to get tenant id from AzureRM profile' }
+    }
     
     $accessToken = Get-AzureExGraphAccessToken $TenantId
     if ($RelativeUrl -match '\?') {

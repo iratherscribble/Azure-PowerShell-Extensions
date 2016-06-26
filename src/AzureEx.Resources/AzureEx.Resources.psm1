@@ -7,10 +7,10 @@ Export-ModuleMember -Alias * -Function '*-*'
 
 $script:profile = $null
 function GetProfile([switch] $Reset) {
-	if (!$script:profile -OR $Reset) {
-		$script:profile = Get-AzureExProfile -DecodeTokenCache
-	}
-	$script:profile
+    if (!$script:profile -OR $Reset) {
+        $script:profile = Get-AzureExProfile -DecodeTokenCache
+    }
+    $script:profile
 }
 
 # ensure the url ends with '/', useful when comparing two urls that one might be misssing the ending slash
