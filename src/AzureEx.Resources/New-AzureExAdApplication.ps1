@@ -6,9 +6,11 @@ function New-AzureExAdApplication
         cmdlets cannot create a usable AAD application that has correct permissions to other applications such as the Windows Azure Active
         Directory, or any other custom applications. 
     .Example
-        PS> New-AzureExAdApplication -DisplayName MyWebApp -IdentifierUris http://mypp
+        PS> New-AzureExAdApplication -DisplayName MyWebApp -IdentifierUris http://myapp1
     .Example
-        PS> New-AzureExAdApplication -DisplayName MyWebApp -IdentifierUris http://mypp -AppSecret $password -AppYears 2
+        PS> New-AzureExAdApplication -DisplayName MyWebApp -IdentifierUris http://myapp1 -AppSecrets $password -AppYears 2
+    .Example
+        PS> New-AzureExAdApplication -DisplayName MyWebApp -IdentifierUris http://myapp1 -RequiredResourceAccessApplications $requireResourceAccess -PermissionsToOtherApplicationIdentifierUris http://myapp2, http://myapp3
     .Example
         PS> New-AzureExAdApplication -DisplayName MyWebApp -IdentifierUris http://myclient -PermissionsToOtherApplicationIdentifierUris http://myapp
     .Example
@@ -39,7 +41,9 @@ function New-AzureExAdApplication
 
         [switch] $MultiTenant,
 
-        [string] $TenantId
+        [string] $TenantId,
+
+        [array] $RequiredResourceAccessApplications
         )
     $ErrorActionPreference = 'Stop'
 
@@ -52,7 +56,11 @@ function New-AzureExAdApplication
         $app.publicClient = $true 
     }
     if ($ReplyUrls) { $app.replyUrls = $ReplyUrls }
-    $app.requiredResourceAccess = @((Get-AzureExAdApplicationOauth2Permission AadSigninAndReadUserProfile))
+    if ($RequiredResourceAccessApplications) {
+        $app.requiredResourceAccess = $RequiredResourceAccessApplications
+    } else {
+        $app.requiredResourceAccess = @((Get-AzureExAdApplicationOauth2Permission AadSigninAndReadUserProfile))
+    }
     if ($AppSecrets) {
         [array] $app.passwordCredentials = $AppSecrets | % {
             New-AzureExAdPasswordCredential $_ $AppYears
