@@ -24,8 +24,6 @@ function New-AzureExAdRequiredResourceAccessApplication
 
         [string] $PermissionType = 'Scope'
         )
-    #$resourceAccess = [PSCustomObject]@{ id = $PermissionId; type = $PermissionType }
-    #$result = [PSCustomObject]@{resourceAppId = $ApplicationId; resourceAccess =  @();}
     $resourceAccess = @{ id = $PermissionId; type = $PermissionType }
     $result = @{resourceAppId = $ApplicationId; resourceAccess =  @();}
     $result.resourceAccess += $resourceAccess
